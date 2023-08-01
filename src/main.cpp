@@ -22,15 +22,19 @@ int main(int argc, char *argv[])
     QSettings settings;
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE") &&
         settings.value("style").toString().isEmpty()) {
+        QString style;
 #if defined(Q_OS_MACOS)
-        QQuickStyle::setStyle(QString("iOS"));
+        style = QString("iOS");
 #elif defined(Q_OS_IOS)
-        QQuickStyle::setStyle(QString("iOS"));
+        style = QString("iOS");
 #elif defined(Q_OS_WINDOWS)
-        QQuickStyle::setStyle(QString("Windows"));
+        style = QString("Windows");
 #elif defined(Q_OS_ANDROID)
-        QQuickStyle::setStyle(QString("Material"));
+        style = QString("Material");
+#elif defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
+        style = QString("Material");
 #endif
+        QQuickStyle::setStyle(style);
     } else {
         QQuickStyle::setStyle(settings.value("style").toString());
     }

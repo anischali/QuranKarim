@@ -7,13 +7,14 @@ project(QuranKarimApp LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.2 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2)
+find_package(Qt6 6.2 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2 Quick)
 
 if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
 
-qt_add_executable(QuranKarimApp src/main.cpp)
+qt_add_executable(QuranKarimApp src/main.cpp
+)
 
 qt_add_resources(QuranKarimApp "configuration"
     PREFIX "/"

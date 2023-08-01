@@ -16,5 +16,15 @@ Window {
 
     Universal.theme: Universal.Dark
     Material.theme: Material.Dark
+
+    property var builtInStyles
+
+    StackView {
+        id: stackView
+
+        anchors.fill: parent
+        initialItem: ReaderPage {}
+    }
+
 }
 
