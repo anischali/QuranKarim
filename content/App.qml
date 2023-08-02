@@ -14,8 +14,8 @@ Window {
     visible: true
     title: "QuranKarim"
 
-    Universal.theme: Universal.Dark
-    Material.theme: Material.Dark
+    Universal.theme: Universal.Light
+    Material.theme: Material.Light
 
     property var builtInStyles
 
@@ -23,7 +23,7 @@ Window {
         id: stackView
 
         anchors.fill: parent
-        initialItem: ReaderPage {}
+        initialItem: MainPage {}
     }
 
 }
