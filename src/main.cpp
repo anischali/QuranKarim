@@ -35,7 +35,7 @@ restart:
     qputenv("QT_SCALE_FACTOR", settings.value("scale_factor").toByteArray());
     set_qt_environment();
 
-    QGuiApplication *app = new QGuiApplication(argc, argv);
+    QGuiApplication app(argc, argv);
     QGuiApplication::setApplicationName(APP_NAME);
     QGuiApplication::setOrganizationName(ORG_NAME);
 
@@ -44,7 +44,6 @@ restart:
     {
         uint32_t factor = get_dpi_scale_factor();
         settings.setValue(QString("scale_factor"), QString::fromStdString(std::to_string(factor)));
-        delete app;
         goto restart;
     }
 
@@ -88,7 +87,7 @@ restart:
 
     const QUrl url(u"qrc:Main/main.qml"_qs);
     QObject::connect(
-        &engine, &QQmlApplicationEngine::objectCreated, app,
+        &engine, &QQmlApplicationEngine::objectCreated, &app,
         [url](QObject *obj, const QUrl &objUrl) {
             if (!obj && url == objUrl)
                 QCoreApplication::exit(-1);
@@ -104,8 +103,7 @@ restart:
         return -1;
     }
 
-    ret = app->exec();
+    ret = app.exec();
 
-    delete app;
     return ret;
 }
