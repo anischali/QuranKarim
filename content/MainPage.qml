@@ -1,89 +1,21 @@
 import QtQuick 6.2
-import QtQuick.Controls
-import QtQuick.Layouts
-import QuranKarim
+import QtQuick.Controls 6.2
+import QuranApp
 
-Page {
-
-
-
-    MouseArea {
-        id: allArea
-        anchors.fill: parent
-
-        onClicked: ()=>{
-            if (!menu_btn.btn_pressed)
-                return
-            menu_btn.btn_pressed = !menu_btn.btn_pressed
-            sideMenu.visible = !sideMenu.visible
-            sourateId.visible = !sourateId.visible
-        }
-    }
-
-    header: Rectangle {
-        id: headerMenu
-        width: parent.width
-        height: 100
-        color: "grey"
-
-        RowLayout {
-
-            ToolButton {
-                font.pixelSize: implicitHeight * 1.5
-                id: menu_btn
-                text: "☰"
-                property bool btn_pressed: false
-                onClicked: ()=> {
-                    btn_pressed = !btn_pressed
-                    sideMenu.visible = !sideMenu.visible
-                    sourateId.visible = !sourateId.visible
-                }
-            }
-
-            ToolButton {
-                font.pixelSize: implicitHeight * 1.5
-                id: play_btn
-                text: "▶"
-            }
-        }
-
-        Label {
-            id: sourateId
-            anchors.centerIn: parent
-            text: "Sourate"
-            font.pixelSize: implicitHeight * 1.5
-
-        }
-    }
+SwipeView {
+    id: swipeView
+    width: 200
+    height: 200
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.topMargin: 60
 
     Rectangle {
-        id: sideMenu
-        width: parent.width / 5 * 4
-        height: parent.height
-
-        color: "grey"
-        visible: false
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: ()=> {}
-        }
-
-        ColumnLayout {
-            ToolButton {
-                font.pixelSize: implicitHeight * 1.5
-                id: language_btn
-                text: "🌐"
-            }
-
-            ToolButton {
-                font.pixelSize: implicitHeight * 1.5
-                id: admin_btn
-                text: "🛡️"
-            }
-
-
-        }
-
+        id: rectangle
+        width: 200
+        height: 200
+        color: "#8c1010"
     }
 }
