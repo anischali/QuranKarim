@@ -8,12 +8,13 @@ import QuranKarim
 
 Window {
     id: window
-    width: screen.width //412
-    height: screen.height //914
+    width: 412
+    height: 914
 
     property var builtInStyles
 
     visible: true
+
 
     ColumnLayout {
         id: columnLayout
@@ -33,6 +34,7 @@ Window {
             width: 360
             height: 60
             position: ToolBar.Footer
+            anchors.bottom: parent.bottom
             antialiasing: true
             Layout.fillHeight: false
             Layout.fillWidth: true
@@ -44,121 +46,101 @@ Window {
             Layout.rowSpan: 0
             hoverEnabled: false
 
-            ToolButton {
-                id: menuBtn
-                width: 60
-                height: 60
-                text: qsTr("Menu")
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                activeFocusOnTab: false
-                antialiasing: true
-                flat: true
 
-                onClicked: ()=>
-                           {
-                               console.debug(screen.pixelDensity)
-                           }
-            }
 
-            ToolButton {
-                id: settingsBtn
-                x: 173
+            RowLayout {
+                id: rowLayout
                 y: 0
-                width: 60
-                text: qsTr("Settings")
+                width: 100
+                height: 60
+                anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                activeFocusOnTab: false
-                antialiasing: true
-                flat: true
 
-                onClicked: swipeView.set_page(2)
-            }
+                ToolButton {
+                    id: quranBtn
+                    width: 0
+                    height: 60
+                    icon.source: "resources/Icons/quran.png"
+                    Layout.fillWidth: true
+                    activeFocusOnTab: false
+                    antialiasing: true
+                    flat: true
+                    onClicked: mainStack.currentIndex = 0
+                }
 
-            ToolButton {
-                id: playerBtn
-                x: 60
-                width: 60
-                text: qsTr("Play")
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                antialiasing: true
-                activeFocusOnTab: false
-                flat: true
+                ToolButton {
+                    id: translationBtn
+                    width: 0
+                    height: 60
+                    Layout.fillWidth: true
+                    activeFocusOnTab: false
+                    antialiasing: true
+                    flat: true
+                    icon.source: "resources/Icons/translate.png"
+                    onClicked: mainStack.currentIndex = 1
+                }
 
-            }
+                ToolButton {
+                    id: khatmatsBtn
+                    width: 0
+                    height: 60
+                    Layout.fillWidth: true
+                    antialiasing: true
+                    activeFocusOnTab: false
+                    flat: true
+                    icon.source: "resources/Icons/seals.png"
+                    onClicked: mainStack.currentIndex = 2
+                }
 
-            ToolButton {
-                id: khatmatsBtn
-                x: 120
-                y: 866
-                width: 60
-                text: qsTr("Tool Button")
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                activeFocusOnTab: false
-                antialiasing: true
-
-                onClicked: swipeView.set_page(1)
+                ToolButton {
+                    id: settingsBtn
+                    width: 0
+                    height: 60
+                    Layout.fillWidth: true
+                    activeFocusOnTab: false
+                    antialiasing: true
+                    icon.source: "resources/Icons/setting.png"
+                    onClicked: mainStack.currentIndex = 3
+                }
             }
         }
 
-        SwipeView {
-            id: swipeView
+        StackLayout {
+            id: mainStack
+            anchors.fill: parent
             Layout.fillHeight: true
             Layout.fillWidth: true
-            anchors.topMargin: 60
-            antialiasing: true
+            anchors.bottomMargin: 60
+            currentIndex: 0
 
+            MainPage {}
 
-
-            function set_page(index) {
-
-                switch(index) {
-                case 0:
-                    break
-                case 1:
-                    khatmatsBtn.text = "Home"
-
-
-                    break
-                case 2:
-                    settingsBtn.text = "Home"
-                    break
-                }
-                swipeView.currentIndex = index
+            Rectangle {
+                id: rectangle1
+                width: 200
+                height: 200
+                color: "#401708"
             }
 
-            currentIndex: 1
+            Rectangle {
+                id: rectangle2
+                width: 200
+                height: 200
+                color: "#8ed380"
+            }
 
-                 Item {
-                     id: firstPage
-                     Text {
-                         id: one
-                         text: qsTr("one")
-                     }
-                 }
-                 Item {
-                     id: secondPage
-                     Text {
-                         id: two
-                         text: qsTr("two")
-                     }
-                 }
-                 Item {
-                     id: thirdPage
-                     Text {
-                         id: three
-                         text: qsTr("three")
-                     }
-                 }
+            Rectangle {
+                id: rectangle3
+                width: 200
+                height: 200
+                color: "#8e0080"
+            }
         }
     }
 
 
 }
+
+
 
 

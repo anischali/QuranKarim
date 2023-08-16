@@ -14,6 +14,7 @@ if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
 endif()
 
 qt_add_executable(QuranKarimApp src/main.cpp
+    src/qt_middleware.hpp src/Qt_middleware.cpp
 )
 
 qt_add_resources(QuranKarimApp "configuration"
@@ -22,12 +23,29 @@ qt_add_resources(QuranKarimApp "configuration"
         qtquickcontrols2.conf
 )
 
+
+
+include(FetchContent)
+FetchContent_Declare(Qbackend
+  GIT_REPOSITORY https://github.com/anischali/Qbackend.git
+  GIT_TAG main
+)
+FetchContent_MakeAvailable(Qbackend)
+
+FetchContent_Declare(fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+  GIT_TAG 9.0.0
+)
+FetchContent_MakeAvailable(fmt)
+
 target_link_libraries(QuranKarimApp PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
     Qt6::QuickControls2
+    fmt::fmt
+    Qbackend
 )
 
 if (BUILD_QDS_COMPONENTS)
@@ -40,7 +58,7 @@ if (LINK_INSIGHT)
     include(${CMAKE_CURRENT_SOURCE_DIR}/insight)
 endif ()
 
-include(GNUInstallDirs)
+
 install(TARGETS QuranKarimApp
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

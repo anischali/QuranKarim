@@ -11,4 +11,11 @@ qt6_add_qml_module(content
 
     RESOURCES
         fonts/fonts.txt
+        resources/Icons/quran.png
+        resources/Icons/translate.png
+        resources/Icons/setting.png
+        resources/Icons/seals.png
+        resources/Icons/search.png
+        QML_FILES SettingsPage.qml
+        QML_FILES QuranToolBar.qml
 )

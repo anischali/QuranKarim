@@ -3,17 +3,17 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QSettings>
 #include <QQuickStyle>
 #include <QScreen>
-
-
+#include "qt_middleware.hpp"
+#include <settings.hpp>
+#include <QStandardPaths>
+#include "fmt/format.h"
 #include "app_environment.h"
 #include "import_qml_components_plugins.h"
 #include "import_qml_plugins.h"
 
-#define ORG_NAME "com.cciq.org"
-#define APP_NAME "QuranKarim"
+using namespace qbackend::model;
 
 uint32_t get_dpi_scale_factor(void)
 {
@@ -29,10 +29,13 @@ uint32_t get_dpi_scale_factor(void)
 
 int main(int argc, char *argv[])
 {
-    QSettings settings(ORG_NAME, APP_NAME);
+    std::string path = fmt::format("{}/{}", QStandardPaths::writableLocation(QStandardPaths::ConfigLocation).toStdString(), ORG_NAME);
+    settings settings(path, APP_NAME);
+    Qt_middleware middleware = Qt_middleware();
+    qDebug() << path;
     int ret = 0;
 restart:
-    qputenv("QT_SCALE_FACTOR", settings.value("scale_factor").toByteArray());
+    qputenv("QT_SCALE_FACTOR", settings.get_value("scale_factor"));
     set_qt_environment();
 
     QGuiApplication app(argc, argv);
@@ -40,17 +43,17 @@ restart:
     QGuiApplication::setOrganizationName(ORG_NAME);
 
 
-    if (settings.value("scale_factor").toString().isEmpty())
+    if (settings.get_value("scale_factor").empty())
     {
         uint32_t factor = get_dpi_scale_factor();
-        settings.setValue(QString("scale_factor"), QString::fromStdString(std::to_string(factor)));
+        settings.set_value("scale_factor", std::to_string(factor));
         goto restart;
     }
 
 
 
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE") &&
-        settings.value("style").toString().isEmpty()) {
+        settings.get_value("style").empty()) {
         QString style;
 #if defined(Q_OS_MACOS)
         style = QString("iOS");
@@ -65,12 +68,12 @@ restart:
 #endif
         QQuickStyle::setStyle(style);
     } else {
-        QQuickStyle::setStyle(settings.value("style").toString());
+        QQuickStyle::setStyle(QString::fromStdString(settings.get_value("style")));
     }
 
-    const QString styleInSettings = settings.value("style").toString();
+    const QString styleInSettings = QString::fromStdString(settings.get_value("style"));
         if (styleInSettings.isEmpty())
-        settings.setValue(QString("style"), QQuickStyle::name());
+        settings.set_value("style", QQuickStyle::name().toStdString());
 
     QStringList builtInStyles = { QString("CustomStyle"), QString("Basic"),
                                  QString("Material"), QString("Universal") };

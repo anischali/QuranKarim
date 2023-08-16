@@ -1,21 +1,28 @@
 import QtQuick 6.2
 import QtQuick.Controls 6.2
-import QuranApp
+import QuranKarim
+import QtQuick.Layouts
 
-SwipeView {
-    id: swipeView
-    width: 200
-    height: 200
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
-    anchors.topMargin: 60
+Item {
+
 
     Rectangle {
         id: rectangle
-        width: 200
-        height: 200
-        color: "#8c1010"
+        anchors.fill: parent
+
+        ColumnLayout {
+            id: columnLayout
+            anchors.fill: parent
+
+            QuranToolBar {
+                id: quranToolBar
+                anchors.top: parent.top
+                Layout.fillWidth: true
+
+            }
+
+        }
     }
+
+
 }
